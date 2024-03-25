@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<head>
+  <title>Anna Dowlin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vina+Sans&display=swap" rel="stylesheet">
+  <style>
+    body {
+      text-align: center;
+      background: url("https://images.pexels.com/photos/1933239/pexels-photo-1933239.jpeg");
+      background-size: cover;
+      background-position: center;
+      color: purple;
+      font-family: 'Vina Sans', sans-serif;
+
+    }
+    p {
+      font-size: 40px;
+    }
+    input {
+      border: 1;
+      padding: 15px;
+      font-size: 20px;
+    }
+    input[type="submit"] {
+      background: Purple;
+      color: Pink;
+    }
+    img {
+      border-radius: 50px;
+      }
+      
+  </style>
+</head>
+<body>
+  <img src="https://pfps.gg/assets/pfps/7775-hooded-flower.png">
+  <p>Welcome to Ri's Web! Sign In</p>
+  <input id="Name" placeholder="Name">
+  <input type="Email" placeholder="Email" id="Email">
+  <input type="submit" id="submit"> 
+ <script type="module">
+   // Import the functions you need from the SDKs you need
+   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+   import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+   // TODO: Add SDKs for Firebase products that you want to use
+   // https://firebase.google.com/docs/web/setup#available-libraries
+
+   // Your web app's Firebase configuration
+   const firebaseConfig = {
+     apiKey: "AIzaSyCpIPdmnsMar0HfKXmG_aigPBVTw28BDMo",
+     authDomain: "rin-s-web.firebaseapp.com",
+     projectId: "rin-s-web",
+     storageBucket: "rin-s-web.appspot.com",
+     messagingSenderId: "1036778585219",
+     appId: "1:1036778585219:web:5bf159e2e86807444fafb6"
+   };
+
+   // Initialize Firebase
+   const app = initializeApp(firebaseConfig);
+   const db = getDatabase(app);
+   
+const Name = document.querySelector("#Name") 
+const Email = document.querySelector("#Email")
+document.querySelector('#submit').addEventListener('click', Submit) 
+function Submit() {
+  const timestamp = buildTimestamp()
+  
+  set(ref(db, timestamp), {
+	  Name: Name.value,
+      email: Email.value,
+  });
+
+  Name.value = ""
+  Email.value = ""
+}
+function buildTimestamp() {
+  const now = new Date();
+  let timestamp = now.getFullYear().toString() + "/";
+  //const month = now.toLocaleString('default', { month: 'long' });
+
+  let month = now.getMonth()+1   //add 1 because Javascript uses 0 for January
+  month = month.toString()
+  month = addLeadingZero(month)
+  timestamp += month + "/"; 
+
+  let date = now.getDate().toString()
+  date = addLeadingZero(date)
+  timestamp += date + "/";
+
+  let hours = now.getHours().toString()
+  hours = addLeadingZero(hours)
+  timestamp += hours + ":";
+
+  let minutes = now.getMinutes().toString()
+  minutes = addLeadingZero(minutes)
+  timestamp += minutes + ":";
+
+  let seconds = now.getSeconds().toString()
+  seconds = addLeadingZero(seconds)
+  timestamp += seconds;
+
+  return timestamp
+}
+
+function addLeadingZero(units) {
+	if (units.length < 2) {
+		units = "0" + units
+	}
+	return units
+}
+
+     
+ </script>
+</body>
